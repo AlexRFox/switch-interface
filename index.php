@@ -95,18 +95,16 @@ function update_router () {
 		fwrite ($sw->fp, $sw->config);
 		fclose ($sw->fp);
 		
-		if ($id == 1) {
-			$t = sprintf ("/tmp/switchconfig%d", $id);
-			$upload = ftp_put ($sw->conn, "config", $t,
-					   FTP_ASCII);
-			
-			if (!$upload) {
-				echo ("ftp upload failed");
-				pfinish ();
-			}
-			
-			ftp_close ($sw->conn);
+		$t = sprintf ("/tmp/switchconfig%d", $id);
+		$upload = ftp_put ($sw->conn, "config", $t,
+				   FTP_ASCII);
+		
+		if (!$upload) {
+			echo ("ftp upload failed");
+			pfinish ();
 		}
+		
+		ftp_close ($sw->conn);
 	}
 	
 	$_SESSION['flash'] = sprintf ("router update in progress, please"
