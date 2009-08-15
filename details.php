@@ -53,14 +53,14 @@ if ($id) {
 	$rows .= "<th>bandwidth</th>";
 	$rows .= "<td>";
 	if ($r->bandwidth == "high") {
-		$rows .= sprintf ("<a href='details.php?bandwidth=high&id=%d'"
+		$rows .= sprintf ("<a href='details.php?bandwidth=high&amp;id=%d'"
 				  ." class='selected'>High</a> | ", $id);
-		$rows .= sprintf ("<a href='details.php?bandwidth=low&id=%d'>"
+		$rows .= sprintf ("<a href='details.php?bandwidth=low&amp;id=%d'>"
 				  ."Low</a>", $id);
 	} else {
-		$rows .= sprintf ("<a href='details.php?bandwidth=high&id=%d'>"
+		$rows .= sprintf ("<a href='details.php?bandwidth=high&amp;id=%d'>"
 				  ."High</a> | ", $id);
-		$rows .= sprintf ("<a href='details.php?bandwidth=low&id=%d'"
+		$rows .= sprintf ("<a href='details.php?bandwidth=low&amp;id=%d'"
 				  ." class='selected'>Low</a>", $id);
 	}
 	$rows .= "</td>";

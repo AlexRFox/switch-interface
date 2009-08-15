@@ -1,7 +1,7 @@
 <?php
 
 require ("common.php");
-require ("password.php");
+require ("/var/switch-interface/password.php");
 
 pstart ();
 

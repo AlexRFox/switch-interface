@@ -1,6 +1,7 @@
 <?php
 
-$dbname = "alex";
+$dbname = "net";
+$low_speed = 400;
 
 require ("DB.php");
 
@@ -17,7 +18,7 @@ class sw {
 $switches = array ();
 
 $sw = new sw;
-$sw->ip = "192.168.1.2";
+$sw->ip = "192.168.50.2";
 $switches[1] = $sw;
 
 function h2($s) {
@@ -80,7 +81,7 @@ function fetch ($q) {
 }
 
 $db1 = new DB;
-$db = $db1->connect ("pgsql://apache@/alex");
+$db = $db1->connect ("pgsql://apache@/$dbname");
 ckerr ("connect/local can't connect to database", $db);
 
 query ("begin transaction");

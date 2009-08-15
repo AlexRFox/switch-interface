@@ -1,7 +1,7 @@
 <?php
 
 require ("common.php");
-require ("password.php");
+require ("/var/switch-interface/password.php");
 
 pstart ();
 
@@ -68,6 +68,7 @@ function update_router () {
 		$sw->config .= "exit\n";
 	}
 
+	global $low_speed;
 	while (($r = fetch ($q)) != NULL) {
 	        $switches[$r->switch]->config
 			.= sprintf ("interface port-channel %d\n", $r->port);
@@ -80,9 +81,10 @@ function update_router () {
 		} else {
 			$switches[$r->switch]->config
 				.= sprintf ("  bandwidth-limit ingress\n"
-					    ."  bandwidth-limit ingress 200\n"
+					    ."  bandwidth-limit ingress %d\n"
 					    ."  bandwidth-limit egress\n"
-					    ."  bandwidth-limit egress 200\n");
+					    ."  bandwidth-limit egress %d\n",
+					    $low_speed, $low_speed);
 		}
 		$switches[$r->switch]->config .= sprintf ("exit\n");
 	}
@@ -113,7 +115,7 @@ function update_router () {
 }
 
 $stmt = sprintf ("select name, ip, port, switch, bandwidth, id from comps"
-		 ." order by name asc");
+		 ." order by switch, port");
 $q = query ($stmt);
 $rows = "";
 $rownum = 0;
@@ -130,17 +132,17 @@ while (($r = fetch ($q)) != NULL) {
 	$rows .= "<td>";
 	if ($r->bandwidth == "high") {
 		$rows .= sprintf ("<a href='index.php"
-				  ."?bandwidth=high&id=%d'"
+				  ."?bandwidth=high&amp;id=%d'"
 				  ." class='selected'>High</a> | ", $r->id);
 		$rows .= sprintf ("<a href='index.php"
-				  ."?bandwidth=low&id=%d'>"
+				  ."?bandwidth=low&amp;id=%d'>"
 				  ."Low</a>", $r->id);
 	} else {	
 		$rows .= sprintf ("<a href='index.php"
-				  ."?bandwidth=high&id=%d'>"
+				  ."?bandwidth=high&amp;id=%d'>"
 				  ."High</a> | ", $r->id);
 		$rows .= sprintf ("<a href='index.php"
-				  ."?bandwidth=low&id=%d'"
+				  ."?bandwidth=low&amp;id=%d'"
 				  ." class='selected'>Low</a>", $r->id);	
 	}
 	$rows .= "</td>";
